@@ -187,8 +187,28 @@
 
 ---
 
-- 🧩 **UC10 – Sort Contacts Alphabetically :**  
-  _Pending implementation._
+- 🧩 **UC10 – Count Contacts by City or State :**
+  - Introduces the ability to count the number of contacts grouped by city or state across Address Books.
+  - Provides statistical insight into how contacts are distributed across locations.
+
+  **Purpose**
+  - Allow users to determine how many contacts belong to each city or state.
+  - Provide aggregated contact statistics across all Address Books.
+
+  **Implementation**
+  - Implemented counting logic in `AddressBookService` using Java Streams with `Collectors.groupingBy()` and `Collectors.counting()`.
+  - Contacts are aggregated into the structure:
+    ```
+    Map<String, Long>
+    ```
+  - Added REST endpoints in `AddressBookController`:
+    ```
+    GET /addressbooks/count/city
+    GET /addressbooks/count/state
+    ```
+  - Added unit tests to validate counting across multiple Address Books, handling of empty datasets, and contacts belonging to different locations.
+
+---
 
 - 🧩 **UC11 – Sort Contacts by City, State, or Zip :**  
   _Pending implementation._
@@ -344,7 +364,6 @@ mvnw spring-boot:run
 - Existing behaviour is preserved through continuous refactoring.
 - The system evolves through layered architecture using Controller, Service, and Repository separation.
 - Progressive enhancements introduce search, sorting, persistence, multithreading, and database support.
-
 
 ---
 
