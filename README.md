@@ -164,8 +164,28 @@
 
 ---
 
-- 🧩 **UC9 – Count Contacts by City or State :**  
-  _Pending implementation._
+- 🧩 **UC9 – View Persons by City or State :**
+  - Introduces the ability to view contacts grouped by city or state across Address Books.
+  - Organizes contacts based on location for easier viewing and analysis.
+
+  **Purpose**
+  - Allow users to see all contacts grouped by their city or state.
+  - Provide a structured way to organize contacts based on location.
+
+  **Implementation**
+  - Implemented grouping logic in `AddressBookService` using Java Streams and `Collectors.groupingBy()`.
+  - Contacts are grouped into a dictionary structure:
+    ```
+    Map<String, List<Contact>>
+    ```
+  - Added REST endpoints in `AddressBookController`:
+    ```
+    GET /addressbooks/view/city
+    GET /addressbooks/view/state
+    ```
+  - Added unit tests to verify grouping functionality, handling of multiple Address Books, and scenarios with empty datasets.
+
+---
 
 - 🧩 **UC10 – Sort Contacts Alphabetically :**  
   _Pending implementation._
@@ -324,6 +344,7 @@ mvnw spring-boot:run
 - Existing behaviour is preserved through continuous refactoring.
 - The system evolves through layered architecture using Controller, Service, and Repository separation.
 - Progressive enhancements introduce search, sorting, persistence, multithreading, and database support.
+
 
 ---
 
