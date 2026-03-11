@@ -310,8 +310,28 @@
 ---
 
 
-- 🧩 **UC16 – Read Contacts from CSV File :**  
-  _Pending implementation._
+- 🧩 **UC16 – Retrieve Contacts from Database & Storage Layer Refactor :**
+  - Introduces database integration to retrieve contacts using JDBC and refactors the storage design to support multiple persistence formats through a storage abstraction layer.
+
+  **Purpose**
+  - Enable retrieval of contacts stored in a relational database.
+  - Decouple storage logic from business logic to support multiple storage formats such as file, CSV, and JSON.
+
+  **Implementation**
+  - Externalized database configuration in `application.properties`, allowing Spring Boot to automatically configure a `DataSource`.
+  - Implemented a `ContactRepository` to execute SQL queries and map database rows to `Contact` objects.
+  - Added a REST endpoint in `AddressBookController`:
+    ```
+    GET /addressbooks/db/contacts
+    ````
+  - Introduced a storage abstraction using the `ContactStorage` interface defining common operations for saving and loading contacts.
+  - Implemented three storage strategies:
+    - `FileStorage` – Handles standard Java File IO operations.
+    - `CSVStorage` – Supports CSV persistence using the OpenCSV library.
+    - `JSONStorage` – Supports JSON serialization and deserialization using the Gson library.
+  - Added integration tests using `@SpringBootTest` to validate database connectivity and data retrieval.
+
+---
 
 - 🧩 **UC17 – Write Contacts to JSON File :**  
   _Pending implementation._
@@ -402,11 +422,16 @@ mvnw spring-boot:run
 │   │   │           │   └── 📄 AddressBook.java
 │   │   │           │
 │   │   │           ├── 📁 repository
+│   │   │           │   └── 📄 ContactRepository.java
 │   │   │           │
 │   │   │           ├── 📁 service
 │   │   │           │   └── 📄 AddressBookService.java
 │   │   │           │
 │   │   │           ├── 📁 storage
+│   │   │           │   ├── 📄 ContactStorage.java
+│   │   │           │   ├── 📄 FileStorage.java
+│   │   │           │   ├── 📄 CSVStorage.java
+│   │   │           │   └── 📄 JSONStorage.java
 │   │   │           │
 │   │   │           ├── 📁 threads
 │   │   │           │
@@ -428,6 +453,7 @@ mvnw spring-boot:run
 │                   ├── 📄 AddressBookApplicationTests.java
 │                   ├── 📄 ContactTest.java
 │                   └── 📄 AddressBookServiceTest.java
+│                   └── 📄 ContactRepositoryTest.java
 │
 ├── ⚙️ pom.xml
 │
